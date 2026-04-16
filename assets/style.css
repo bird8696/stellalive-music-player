@@ -1,0 +1,240 @@
+/* ─────────────────────────────────────────
+   assets/style.css
+   CINEMA MUSIC — 전역 시네마 테마
+   Streamlit에서 st.markdown()으로 주입하거나
+   config.toml의 [theme] 섹션과 함께 사용
+───────────────────────────────────────── */
+
+/* ── Google Fonts ── */
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Space+Mono&display=swap");
+
+/* ── 전역 리셋 ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ── Streamlit 앱 배경 ── */
+.stApp {
+  background-color: #080808;
+  color: #e8d5a3;
+}
+
+/* ── 메인 콘텐츠 영역 ── */
+.block-container {
+  padding-top: 2rem !important;
+  padding-bottom: 3rem !important;
+  max-width: 1100px;
+}
+
+/* ── 사이드바 ── */
+[data-testid="stSidebar"] {
+  background: #111111 !important;
+  border-right: 1px solid #3a3220;
+}
+
+/* ── Streamlit 기본 UI 숨김 ── */
+#MainMenu {
+  visibility: hidden;
+}
+footer {
+  visibility: hidden;
+}
+header {
+  visibility: hidden;
+}
+.stDeployButton {
+  display: none;
+}
+
+/* ══════════════════════════════════════
+   타이포그래피
+══════════════════════════════════════ */
+
+h1,
+h2,
+h3 {
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.1em;
+  color: #c9a227;
+}
+
+p,
+span,
+div,
+label {
+  font-family: "Space Mono", monospace;
+  color: #e8d5a3;
+}
+
+/* ══════════════════════════════════════
+   입력 요소
+══════════════════════════════════════ */
+
+.stTextInput input,
+.stTextArea textarea {
+  background: #1a1a1a !important;
+  border: 1px solid #2a2a2a !important;
+  border-radius: 6px !important;
+  color: #e8d5a3 !important;
+  font-family: "Space Mono", monospace !important;
+  font-size: 13px !important;
+  transition: border-color 0.2s;
+}
+
+.stTextInput input:focus,
+.stTextArea textarea:focus {
+  border-color: #c9a227 !important;
+  box-shadow: 0 0 0 2px #c9a22733 !important;
+}
+
+.stTextInput label,
+.stTextArea label {
+  color: #8a7a5a !important;
+  font-family: "Space Mono", monospace !important;
+  font-size: 11px !important;
+  letter-spacing: 0.1em;
+}
+
+/* ── 셀렉트박스 ── */
+.stSelectbox > div > div {
+  background: #1a1a1a !important;
+  border: 1px solid #2a2a2a !important;
+  color: #e8d5a3 !important;
+  border-radius: 6px !important;
+}
+
+/* ══════════════════════════════════════
+   버튼
+══════════════════════════════════════ */
+
+.stButton > button {
+  font-family: "Space Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  border-radius: 6px !important;
+  border: 1px solid #3a3220 !important;
+  background: none !important;
+  color: #e8d5a3 !important;
+  transition: all 0.2s;
+}
+
+.stButton > button:hover {
+  background: #c9a22722 !important;
+  border-color: #c9a227 !important;
+}
+
+.stButton > button[kind="primary"] {
+  background: #c9a227 !important;
+  border-color: #c9a227 !important;
+  color: #080808 !important;
+  font-weight: 700;
+}
+
+.stButton > button[kind="primary"]:hover {
+  background: #e8bd3a !important;
+}
+
+/* ══════════════════════════════════════
+   탭
+══════════════════════════════════════ */
+
+.stTabs [data-baseweb="tab-list"] {
+  background: #111111;
+  border-radius: 8px;
+  padding: 4px;
+  border: 1px solid #2a2a2a;
+}
+
+.stTabs [data-baseweb="tab"] {
+  font-family: "Space Mono", monospace;
+  font-size: 12px;
+  color: #8a7a5a;
+  border-radius: 6px;
+}
+
+.stTabs [aria-selected="true"] {
+  background: #c9a227 !important;
+  color: #080808 !important;
+  font-weight: 700;
+}
+
+.stTabs [data-baseweb="tab-highlight"] {
+  display: none;
+}
+
+/* ══════════════════════════════════════
+   알림 / 메시지
+══════════════════════════════════════ */
+
+.stAlert {
+  border-radius: 6px !important;
+  font-family: "Space Mono", monospace !important;
+  font-size: 12px !important;
+}
+
+/* ══════════════════════════════════════
+   Expander
+══════════════════════════════════════ */
+
+.streamlit-expanderHeader {
+  font-family: "Space Mono", monospace !important;
+  font-size: 12px !important;
+  color: #8a7a5a !important;
+  background: #111111 !important;
+  border: 1px solid #2a2a2a !important;
+  border-radius: 6px !important;
+}
+
+.streamlit-expanderContent {
+  background: #111111 !important;
+  border: 1px solid #2a2a2a !important;
+  border-top: none !important;
+  border-radius: 0 0 6px 6px !important;
+}
+
+/* ══════════════════════════════════════
+   스크롤바
+══════════════════════════════════════ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+::-webkit-scrollbar-thumb {
+  background: #3a3220;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c9a227;
+}
+
+/* ══════════════════════════════════════
+   유틸리티 클래스
+══════════════════════════════════════ */
+
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, #c9a227, transparent);
+  opacity: 0.3;
+  margin: 1rem 0;
+}
+
+.cinema-title {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 32px;
+  letter-spacing: 0.12em;
+  color: #c9a227;
+}
+
+.mono-label {
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: #4a4030;
+  text-transform: uppercase;
+}
