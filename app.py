@@ -91,9 +91,41 @@ def _inject_styles() -> None:
     """, unsafe_allow_html=True)
 
 
+@st.fragment
+def _add_track_fragment(username: str, selected_pl: str | None):
+    """트랙 추가 폼 — fragment로 분리해서 플레이어 재시작 없이 트랙 추가."""
+    if not selected_pl:
+        st.caption("먼저 플레이리스트를 만들어주세요.")
+        return
+
+    with st.form("add_track_form", clear_on_submit=True):
+        title = st.text_input("제목 *", placeholder="곡 제목")
+        desc  = st.text_input("아티스트", placeholder="Artist")
+        url   = st.text_input("YouTube URL *", placeholder="https://youtu.be/...")
+        img   = st.text_input("포스터 이미지 URL", placeholder="비워두면 YT 썸네일 자동")
+        ok    = st.form_submit_button("추가하기", type="primary")
+
+    if ok:
+        title = title.strip(); url = url.strip()
+        if not title:
+            st.error("제목을 입력해주세요.")
+        elif not is_valid_youtube_url(url):
+            st.error("유효한 YouTube URL을 입력해주세요.")
+        else:
+            if not img.strip():
+                vid = extract_video_id(url)
+                img = get_thumbnail_url(vid, quality="hq") if vid else ""
+            add_track(username, selected_pl, {
+                "title": title, "desc": desc.strip(), "url": url, "img": img
+            })
+            st.success(f"'{title}' 추가! ✦")
+            # st.rerun() 호출 안 함 — 플레이어 재시작 방지
+            # 다음 인터랙션 시 자동으로 목록 갱신됨
+
+
 def _render_sidebar(username: str):
     with st.sidebar:
-        st.markdown(f"## ✦ STELLA")
+        st.markdown(f"## ✦ STELLALIVE")
         st.caption(f"👤 {username}")
         st.divider()
 
@@ -140,32 +172,9 @@ def _render_sidebar(username: str):
 
         st.divider()
 
-        # 트랙 추가
+        # 트랙 추가 (fragment로 분리 — 플레이어 재시작 방지)
         st.markdown("**✦ TRACK 추가**")
-        if selected_pl:
-            with st.form("add_track_form", clear_on_submit=True):
-                title = st.text_input("제목 *", placeholder="곡 제목")
-                desc  = st.text_input("아티스트", placeholder="Artist")
-                url   = st.text_input("YouTube URL *", placeholder="https://youtu.be/...")
-                img   = st.text_input("포스터 이미지 URL", placeholder="비워두면 YT 썸네일 자동")
-                ok    = st.form_submit_button("추가하기", type="primary")
-            if ok:
-                title = title.strip(); url = url.strip()
-                if not title:
-                    st.error("제목을 입력해주세요.")
-                elif not is_valid_youtube_url(url):
-                    st.error("유효한 YouTube URL을 입력해주세요.")
-                else:
-                    if not img.strip():
-                        vid = extract_video_id(url)
-                        img = get_thumbnail_url(vid, quality="hq") if vid else ""
-                    add_track(username, selected_pl, {
-                        "title": title, "desc": desc.strip(), "url": url, "img": img
-                    })
-                    st.success(f"'{title}' 추가! ✦")
-                    st.rerun()
-        else:
-            st.caption("먼저 플레이리스트를 만들어주세요.")
+        _add_track_fragment(username, selected_pl)
 
         # 트랙 삭제
         if selected_pl:
@@ -222,7 +231,7 @@ def main():
     pl_label = f"✦ {playlist_name}" if playlist_name else "NO PLAYLIST"
     st.markdown(
         f'<div class="page-header">'
-        f'<span class="page-title">✦ STELLA MUSIC</span>'
+        f'<span class="page-title">✦ STELLALIVELIVE MUSIC</span>'
         f'<span class="page-playlist-name">{pl_label}</span>'
         f'</div>'
         f'<div class="gold-divider"></div>',
