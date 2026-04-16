@@ -261,7 +261,7 @@ def main():
     all_tracks = _get_all_tracks()
 
     if not all_tracks:
-        st.info("아직 등록된 트랙이 없어요. 내 플레이리스트에서 먼저 추가해보세요!", icon="✦")
+        st.info("아직 등록된 트랙이 없어요. 내 플레이리스트에서 먼저 추가해보세요!")
         return
 
     # ── 통계 ──
@@ -294,7 +294,7 @@ def main():
         filtered = [t for t in filtered if t["_owner"] == filter_owner]
 
     if not filtered:
-        st.warning("검색 결과가 없어요.", icon="✦")
+        st.warning("검색 결과가 없어요.")
         return
 
     if search or filter_owner != "전체":

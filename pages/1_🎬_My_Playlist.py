@@ -146,7 +146,7 @@ def main():
     )
 
     if not tracks:
-        st.info("사이드바에서 트랙을 추가해보세요.", icon="✦")
+        st.info("사이드바에서 트랙을 추가해보세요.")
         return
 
     if current_track:
