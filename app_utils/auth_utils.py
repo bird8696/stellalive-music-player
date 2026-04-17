@@ -91,6 +91,11 @@ def sign_up(username: str, password: str, password_confirm: str) -> None:
         raise AuthError("비밀번호를 입력해주세요.")
     if len(password) < min_pw:
         raise AuthError(f"비밀번호는 {min_pw}자 이상이어야 합니다.")
+    if len(password) > 12:
+        raise AuthError("비밀번호는 12자 이하여야 합니다.")
+    SPECIAL = set('!@#$%^&*()_+-=[]{}|;:,.<>?/`~')
+    if not any(c in SPECIAL for c in password):
+        raise AuthError("비밀번호에 특수문자를 1개 이상 포함해야 합니다.")
     if password != password_confirm:
         raise AuthError("비밀번호가 일치하지 않습니다.")
     if user_exists(username):

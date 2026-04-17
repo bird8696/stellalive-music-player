@@ -1,8 +1,3 @@
-# ─────────────────────────────────────────
-#  components/auth.py
-#  로그인 · 회원가입 UI 컴포넌트
-# ─────────────────────────────────────────
-
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -139,7 +134,7 @@ def _render_login_form():
 def _render_signup_form():
     with st.form("signup_form", clear_on_submit=False):
         username         = st.text_input("아이디", placeholder="영문자 + 숫자, 3자 이상")
-        password         = st.text_input("비밀번호", type="password", placeholder="6자 이상")
+        password         = st.text_input("비밀번호", type="password", placeholder="6~12자, 특수문자 포함")
         password_confirm = st.text_input("비밀번호 확인", type="password", placeholder="••••••")
         submitted        = st.form_submit_button("JOIN")
     if submitted:
@@ -154,8 +149,8 @@ def _render_signup_form():
 def render_auth_page():
     _inject_auth_styles()
     st.markdown('<div class="auth-wrap">', unsafe_allow_html=True)
-    st.markdown('<div class="auth-logo">✦ STELLA MUSIC</div>', unsafe_allow_html=True)
-    st.markdown('<div class="auth-sub">YOUR PERSONAL STAR THEATER</div>', unsafe_allow_html=True)
+    st.markdown('<div class="auth-logo">✦ STELLALIVELIVE MUSIC</div>', unsafe_allow_html=True)
+    st.markdown('<div class="auth-sub">YOUR PERSONAL STELLALIVE THEATER</div>', unsafe_allow_html=True)
     st.markdown('<div class="stella-divider"></div>', unsafe_allow_html=True)
     tab_login, tab_signup = st.tabs(["로그인", "회원가입"])
     with tab_login:
