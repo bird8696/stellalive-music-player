@@ -105,22 +105,51 @@ def sign_up(username: str, password: str, password_confirm: str) -> None:
     login_session(username)
 
 
+MAX_LOGIN_ATTEMPTS = 5
+LOCKOUT_SECONDS    = 300  # 5분
+
+
+def _check_brute_force() -> None:
+    """로그인 시도 횟수 초과 여부를 확인한다."""
+    import time
+    now      = time.time()
+    locked   = st.session_state.get("login_locked_until", 0)
+    attempts = st.session_state.get("login_attempts", 0)
+
+    if now < locked:
+        remain = int(locked - now)
+        raise AuthError(f"로그인 시도가 너무 많습니다. {remain}초 후 다시 시도해주세요.")
+
+    if attempts >= MAX_LOGIN_ATTEMPTS:
+        st.session_state["login_locked_until"] = now + LOCKOUT_SECONDS
+        st.session_state["login_attempts"]     = 0
+        raise AuthError(f"로그인 시도가 너무 많습니다. {LOCKOUT_SECONDS // 60}분 후 다시 시도해주세요.")
+
+
 def sign_in(username: str, password: str) -> None:
     """
     로그인을 처리한다.
     실패 시 AuthError를 raise.
     성공 시 세션에 로그인.
     """
+    import time
+    _check_brute_force()
+
     username = username.strip()
 
     if not username or not password:
+        st.session_state["login_attempts"] = st.session_state.get("login_attempts", 0) + 1
         raise AuthError("아이디와 비밀번호를 모두 입력해주세요.")
 
     user = get_user(username)
     # 아이디 존재 여부를 구분하지 않음 (사용자 열거 공격 방지)
     if user is None or not verify_password(password, user["password_hash"]):
+        st.session_state["login_attempts"] = st.session_state.get("login_attempts", 0) + 1
         raise AuthError("아이디 또는 비밀번호가 올바르지 않습니다.")
 
+    # 로그인 성공 시 시도 횟수 초기화
+    st.session_state["login_attempts"]     = 0
+    st.session_state["login_locked_until"] = 0
     login_session(username)
 
 
