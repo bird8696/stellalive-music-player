@@ -117,11 +117,9 @@ def sign_in(username: str, password: str) -> None:
         raise AuthError("아이디와 비밀번호를 모두 입력해주세요.")
 
     user = get_user(username)
-    if user is None:
-        raise AuthError("존재하지 않는 아이디입니다.")
-
-    if not verify_password(password, user["password_hash"]):
-        raise AuthError("비밀번호가 올바르지 않습니다.")
+    # 아이디 존재 여부를 구분하지 않음 (사용자 열거 공격 방지)
+    if user is None or not verify_password(password, user["password_hash"]):
+        raise AuthError("아이디 또는 비밀번호가 올바르지 않습니다.")
 
     login_session(username)
 
