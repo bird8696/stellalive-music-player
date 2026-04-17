@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import streamlit as st
 from app_config.settings import PAGE_CONFIG, THEME, FONTS, GOOGLE_FONTS_URL
 from app_utils.auth_utils import is_logged_in, get_current_user, logout_session
-from app_utils.youtube import is_valid_youtube_url, extract_video_id, get_thumbnail_url
+from app_utils.youtube import is_valid_youtube_url, is_valid_img_url, extract_video_id, get_thumbnail_url
 from app_utils.data_manager import (
     get_playlist_names, get_playlist, create_playlist,
     delete_playlist, add_track, remove_track, playlist_exists,

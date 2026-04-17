@@ -87,3 +87,32 @@ def get_embed_url(video_id: str, autoplay: bool = True) -> str:
 def is_valid_youtube_url(url: str) -> bool:
     """URL이 유효한 YouTube 링크인지 확인한다."""
     return extract_video_id(url) is not None
+
+
+# ── 이미지 URL 도메인 허용 목록 ──────────────
+ALLOWED_IMG_DOMAINS = {
+    "img.youtube.com",
+    "i.ytimg.com",
+    "images.unsplash.com",
+    "i.imgur.com",
+    "cdn.discordapp.com",
+    "media.discordapp.net",
+    "pbs.twimg.com",          # 트위터/X 이미지
+    "upload.wikimedia.org",
+}
+
+
+def is_valid_img_url(url: str) -> bool:
+    """
+    이미지 URL이 허용된 도메인인지 확인한다.
+    빈 문자열은 허용 (썸네일 자동 사용).
+    """
+    if not url:
+        return True
+    try:
+        from urllib.parse import urlparse
+        hostname = urlparse(url).hostname or ""
+        # 서브도메인 포함 체크 (예: cdn2.i.imgur.com)
+        return any(hostname == d or hostname.endswith(f".{d}") for d in ALLOWED_IMG_DOMAINS)
+    except Exception:
+        return False
